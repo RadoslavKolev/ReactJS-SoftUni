@@ -1,42 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 
-import DownArrowIcon from "../common/DownArrowIcon/DownArrowIcon";
+import * as userService from '../../services/userService';
+import UserDetails from "./UserRow/UserDetails/UserDetails";
 import UserRow from "./UserRow/UserRow";
+import DownArrowIcon from "../common/DownArrowIcon/DownArrowIcon";
 
 const UsersTable = ({ users }) => {
-  const userRows = users.map((user) => <UserRow key={user._id} user={user} />);
+  // We set it to null for the conditional rendering of <UserDetails />
+  // The empty object is truthy, that's why we set it to null
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const detailsClickHandler = (userId) => {
+    userService.getUser(userId)
+      .then(user => setSelectedUser(user));
+  };
+
+  const userRows = users.map((user) => (
+    <UserRow 
+      key={user._id} 
+      user={user} 
+      onDetailsClick={detailsClickHandler} 
+    />
+  ));
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>
-            First name
-            <DownArrowIcon active={""} />
-          </th>
-          <th>
-            Last name
-            <DownArrowIcon active={""} />
-          </th>
-          <th>
-            Email
-            <DownArrowIcon active={""} />
-          </th>
-          <th>
-            Phone
-            <DownArrowIcon active={""} />
-          </th>
-          <th>
-            Created
-            <DownArrowIcon active={"active-icon"} />
-          </th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      
-      <tbody>{userRows}</tbody>
-    </table>
+    <div className="table-wrapper">
+      {/* Overlap Components */}
+      {selectedUser && <UserDetails user={selectedUser} />}
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>
+              First name
+              <DownArrowIcon active={""} />
+            </th>
+            <th>
+              Last name
+              <DownArrowIcon active={""} />
+            </th>
+            <th>
+              Email
+              <DownArrowIcon active={""} />
+            </th>
+            <th>
+              Phone
+              <DownArrowIcon active={""} />
+            </th>
+            <th>
+              Created
+              <DownArrowIcon active={"active-icon"} />
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>{userRows}</tbody>
+      </table>
+    </div>
   );
 };
 

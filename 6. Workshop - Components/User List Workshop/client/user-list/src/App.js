@@ -15,7 +15,8 @@ const App = () => {
   // We take the getAllUsers() and set them in the users state
   // This operation runs when the component is initially rendered
   useEffect(() => {
-    userService.getAllUsers().then(users => setUsers(users));
+    userService.getAllUsers()
+      .then(users => setUsers(users));
   }, []);
 
   return (
