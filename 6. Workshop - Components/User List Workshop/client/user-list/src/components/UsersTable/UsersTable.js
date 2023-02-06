@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 
 import * as userService from "../../services/userService";
 import { UserActions } from "../../actions/userActions";
-import UserDetails from "./UserDetails/UserDetails";
 import UserEdit from "./UserEdit/UserEdit";
+import UserDelete from "./UserDelete/UserDelete";
+import UserDetails from "./UserDetails/UserDetails";
 import UserRow from "./UserRow/UserRow";
 import DownArrowIcon from "../common/DownArrowIcon/DownArrowIcon";
 
@@ -85,6 +86,14 @@ const UsersTable = ({ users }) => {
         ReactDOM.createPortal(
           <UserEdit user={userState.selectedUser} onClose={closeHandler} />,
           document.getElementById("edit-modal")
+        )
+      }
+
+      {/* Displaying User Delete when Delete button is clicked */}
+      {userState.userAction === UserActions.Delete && 
+        ReactDOM.createPortal(
+          <UserDelete user={userState.selectedUser} onClose={closeHandler} />,
+          document.getElementById("delete-modal")
         )
       }
 
