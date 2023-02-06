@@ -4,6 +4,8 @@ import { formatDate } from "../../../functions/formatDate";
 import UserActions from "./UserActions/UserActions";
 
 const UserRow = ({ user }) => {
+  const formattedDate = formatDate(user.createdAt);
+
   return (
     <tr>
       <td>
@@ -17,7 +19,7 @@ const UserRow = ({ user }) => {
       <td>{user.lastName}</td>
       <td>{user.email}</td>
       <td>{user.phoneNumber}</td>
-      <td>{formatDate(user.createdAt)}</td>
+      <td>{formattedDate}</td>
       <UserActions />
     </tr>
   );
