@@ -1,18 +1,26 @@
 import React from 'react';
 
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
-import Footer from './components/Footer/Footer';
+import Header from './components/common/Header/Header';
+import SearchBar from './components/SearchBar/SearchBar';
+import UsersTable from './components/UsersTable/UsersTable';
+import Footer from './components/common/Footer/Footer';
 
 import './App.css';
 
 const App = () => {
   return (
-    <div>
+    <>
       <Header />
-      <Main />
+
+      <main className="main">
+        <section className="card users-container">
+          <SearchBar />
+          <UsersTable />
+        </section>
+      </main>
+
       <Footer />
-    </div>
+    </>
   );
 };
 

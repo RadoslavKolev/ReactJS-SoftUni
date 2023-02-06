@@ -99,7 +99,7 @@ const UsersTable = () => {
           <th>Actions</th>
         </tr>
       </thead>
-      
+
       <tbody>
         {/* <!-- Table row component --> */}
         <tr>
@@ -134,6 +134,7 @@ const UsersTable = () => {
                 ></path>
               </svg>
             </button>
+
             <button className="btn delete-btn" title="Delete">
               <svg
                 aria-hidden="true"
@@ -151,6 +152,7 @@ const UsersTable = () => {
                 ></path>
               </svg>
             </button>
+            
             <button className="btn info-btn" title="Info">
               <svg
                 aria-hidden="true"
