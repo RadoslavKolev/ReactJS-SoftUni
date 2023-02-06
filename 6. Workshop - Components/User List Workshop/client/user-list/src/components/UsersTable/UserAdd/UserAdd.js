@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import ActionButton from "../../common/ActionButton/ActionButton";
 
-const UserEdit = ({ user, onClose }) => {
+const UserAdd = ({ onUserCreate, onClose }) => {
   // If Esc key is pressed, the modal closes
   const handleKeyDown = (event) => {
     if (event.key === "Escape") onClose();
@@ -24,7 +24,7 @@ const UserEdit = ({ user, onClose }) => {
       <div className="modal">
         <div className="user-container">
           <header className="headers">
-            <h2>Edit User</h2>
+            <h2>Add User</h2>
             <ActionButton
               btnClass={"btn close"}
               btnTitle={"Close"}
@@ -38,7 +38,7 @@ const UserEdit = ({ user, onClose }) => {
             />
           </header>
 
-          <form>
+          <form onSubmit={onUserCreate}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">First name</label>
@@ -155,7 +155,7 @@ const UserEdit = ({ user, onClose }) => {
             </div>
             <div id="form-actions">
               <button id="action-save" className="btn" type="submit">
-                Save
+                Add
               </button>
               <button id="action-cancel" className="btn" type="button" onClick={onClose}>
                 Cancel
@@ -168,4 +168,4 @@ const UserEdit = ({ user, onClose }) => {
   );
 };
 
-export default UserEdit;
+export default UserAdd;
