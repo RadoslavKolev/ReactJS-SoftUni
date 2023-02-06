@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { formatDetailsDate } from "../../../functions/dateFormatter";
-import ActionButton from "../UserRow/UserActions/ActionButton/ActionButton";
+import ActionButton from "../../common/ActionButton/ActionButton";
 
 const UserDetails = ({ user, onClose }) => {
   const blankProfileUrl =

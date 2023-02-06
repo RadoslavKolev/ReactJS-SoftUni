@@ -1,9 +1,10 @@
 import React from "react";
 
-import Icon from "../../../../common/Icon/Icon";
+import Icon from "../Icon/Icon";
 
 const ActionButton = (props) => {
-  const { btnClass, btnTitle, dataIcon, iconClasses, viewBox, d, onClick } = props;
+  const { btnClass, btnTitle, dataIcon, iconClasses, viewBox, d, onClick } =
+    props;
 
   return (
     <button className={btnClass} title={btnTitle} onClick={onClick}>

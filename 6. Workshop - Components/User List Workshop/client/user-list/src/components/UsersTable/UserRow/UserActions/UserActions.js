@@ -1,6 +1,6 @@
 import React from "react";
 
-import ActionButton from "./ActionButton/ActionButton";
+import ActionButton from "../../../common/ActionButton/ActionButton";
 
 const UserActions = ({ onEditClick, onDeleteClick, onDetailsClick }) => {
   return (
