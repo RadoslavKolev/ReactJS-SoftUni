@@ -3,13 +3,13 @@ import React from "react";
 import { formatTableDate } from "../../../functions/dateFormatter";
 import UserActions from "./UserActions/UserActions";
 
-const UserRow = ({ user, onDetailsClick }) => {
+const UserRow = ({ user, onEditClick, onDeleteClick, onDetailsClick }) => {
   const blankProfileUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
   const formattedDate = formatTableDate(user.createdAt);
 
-  const editUserHandler = () => {};
-  const deleteUserHandler = () => {};
+  const editUserHandler = () => onEditClick(user._id);
+  const deleteUserHandler = () => onDeleteClick(user._id);
   const showUserInfoHandler = () => onDetailsClick(user._id);
 
   return (
