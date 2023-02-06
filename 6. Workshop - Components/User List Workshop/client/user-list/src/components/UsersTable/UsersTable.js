@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from 'react-dom';
 
 import * as userService from '../../services/userService';
 import UserDetails from "./UserRow/UserDetails/UserDetails";
@@ -25,8 +26,12 @@ const UsersTable = ({ users }) => {
 
   return (
     <div className="table-wrapper">
-      {/* Overlap Components */}
-      {selectedUser && <UserDetails user={selectedUser} />}
+      {/* Displaying User Details when Info button is clicked */}
+      {/* Placing the modal in different div */}
+      {selectedUser && ReactDOM.createPortal(
+        <UserDetails user={selectedUser} />,
+        document.getElementById("user-details")
+      )}
 
       <table className="table">
         <thead>
