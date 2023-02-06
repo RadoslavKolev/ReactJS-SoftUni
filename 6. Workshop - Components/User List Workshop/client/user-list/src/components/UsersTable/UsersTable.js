@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
-import * as userService from '../../services/userService';
-import UserDetails from "./UserRow/UserDetails/UserDetails";
+import * as userService from "../../services/userService";
+import UserDetails from "./UserDetails/UserDetails";
 import UserRow from "./UserRow/UserRow";
 import DownArrowIcon from "../common/DownArrowIcon/DownArrowIcon";
 
@@ -13,8 +13,7 @@ const UsersTable = ({ users }) => {
 
   // We get and save the current user
   const detailsClickHandler = (userId) => {
-    userService.getUser(userId)
-      .then(user => setSelectedUser(user));
+    userService.getUser(userId).then((user) => setSelectedUser(user));
   };
 
   // Closing the modal
@@ -22,21 +21,18 @@ const UsersTable = ({ users }) => {
 
   // Rendering the table rows
   const userRows = users.map((user) => (
-    <UserRow 
-      key={user._id} 
-      user={user} 
-      onDetailsClick={detailsClickHandler} 
-    />
+    <UserRow key={user._id} user={user} onDetailsClick={detailsClickHandler} />
   ));
 
   return (
     <div className="table-wrapper">
       {/* Displaying User Details when Info button is clicked */}
       {/* Placing the modal in different div */}
-      {selectedUser && ReactDOM.createPortal(
-        <UserDetails user={selectedUser} onClose={closeHandler} />,
-        document.getElementById("user-details")
-      )}
+      {selectedUser &&
+        ReactDOM.createPortal(
+          <UserDetails user={selectedUser} onClose={closeHandler} />,
+          document.getElementById("user-details")
+        )}
 
       <table className="table">
         <thead>

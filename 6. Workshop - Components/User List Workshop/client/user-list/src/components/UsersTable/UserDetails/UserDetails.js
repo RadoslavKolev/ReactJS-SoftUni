@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import { formatDetailsDate } from "../../../../functions/dateFormatter";
-import ActionButton from "../UserActions/ActionButton/ActionButton";
+import { formatDetailsDate } from "../../../functions/dateFormatter";
+import ActionButton from "../UserRow/UserActions/ActionButton/ActionButton";
 
 const UserDetails = ({ user, onClose }) => {
   const blankProfileUrl =
@@ -11,16 +11,16 @@ const UserDetails = ({ user, onClose }) => {
 
   // If Esc key is pressed, the modal closes
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape') onClose();
+    if (event.key === "Escape") onClose();
   };
 
   // Adds the handleKeyDown event handler to the document object when the component is mounted
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    
+    document.addEventListener("keydown", handleKeyDown);
+
     // Cleanup function that removes the event handler when the component is unmounted to prevent memory leaks
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
