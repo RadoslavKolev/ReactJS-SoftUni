@@ -8,6 +8,10 @@ const UserRow = ({ user, onDetailsClick }) => {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
   const formattedDate = formatTableDate(user.createdAt);
 
+  const editUserHandler = () => {};
+  const deleteUserHandler = () => {};
+  const showUserInfoHandler = () => onDetailsClick(user._id);
+
   return (
     <tr>
       <td>
@@ -22,7 +26,11 @@ const UserRow = ({ user, onDetailsClick }) => {
       <td>{user.email}</td>
       <td>{user.phoneNumber}</td>
       <td>{formattedDate}</td>
-      <UserActions id={user._id} onDetailsClick={onDetailsClick} />
+      <UserActions 
+        onEditClick={editUserHandler}
+        onDeleteClick={deleteUserHandler}
+        onDetailsClick={showUserInfoHandler} 
+      />
     </tr>
   );
 };

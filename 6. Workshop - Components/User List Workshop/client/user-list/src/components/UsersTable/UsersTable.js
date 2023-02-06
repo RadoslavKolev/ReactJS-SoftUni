@@ -11,15 +11,16 @@ const UsersTable = ({ users }) => {
   // The empty object is truthy, that's why we set it to null
   const [selectedUser, setSelectedUser] = useState(null);
 
+  // We get and save the current user
   const detailsClickHandler = (userId) => {
     userService.getUser(userId)
       .then(user => setSelectedUser(user));
   };
 
-  const closeHandler = () => {
-    setSelectedUser(null);
-  };
+  // Closing the modal
+  const closeHandler = () => setSelectedUser(null);
 
+  // Rendering the table rows
   const userRows = users.map((user) => (
     <UserRow 
       key={user._id} 
