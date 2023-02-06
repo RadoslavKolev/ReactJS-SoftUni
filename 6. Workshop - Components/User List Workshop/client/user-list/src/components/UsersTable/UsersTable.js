@@ -16,6 +16,10 @@ const UsersTable = ({ users }) => {
       .then(user => setSelectedUser(user));
   };
 
+  const closeHandler = () => {
+    setSelectedUser(null);
+  };
+
   const userRows = users.map((user) => (
     <UserRow 
       key={user._id} 
@@ -29,7 +33,7 @@ const UsersTable = ({ users }) => {
       {/* Displaying User Details when Info button is clicked */}
       {/* Placing the modal in different div */}
       {selectedUser && ReactDOM.createPortal(
-        <UserDetails user={selectedUser} />,
+        <UserDetails user={selectedUser} onClose={closeHandler} />,
         document.getElementById("user-details")
       )}
 
