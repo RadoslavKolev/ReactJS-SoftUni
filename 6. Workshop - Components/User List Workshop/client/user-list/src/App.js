@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import * as userService from "./services/userService";
 import Header from "./components/common/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UsersTable from "./components/UsersTable/UsersTable";
@@ -10,15 +11,11 @@ import "./App.css";
 const App = () => {
   const [users, setUsers] = useState([]);
 
-  const baseUrl = "http://localhost:3005/api";
-
-  // Getting the users from the server via Fetch API
   // We use useEffect to prevent infinite loop (setUsers calls the component again)
-  // The fetch operation runs when the component is initially rendered
+  // We take the getAllUsers() and set them in the users state
+  // This operation runs when the component is initially rendered
   useEffect(() => {
-    fetch(`${baseUrl}/users`)
-      .then((response) => response.json())
-      .then((result) => setUsers(result.users));
+    userService.getAllUsers().then(users => setUsers(users));
   }, []);
 
   return (
