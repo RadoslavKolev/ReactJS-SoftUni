@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 
-import { deleteUser } from "../../../services/userService";
 import ActionButton from "../../common/ActionButton/ActionButton";
 
-const UserDelete = ({ userId, onClose }) => {
+const UserDelete = ({ onUserDelete, onClose }) => {
   // If Esc key is pressed, the modal closes
   const handleKeyDown = (event) => {
     if (event.key === "Escape") onClose();
@@ -18,11 +17,6 @@ const UserDelete = ({ userId, onClose }) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
-  const deleteUserHandler = () => {
-    deleteUser(userId);
-    onClose();
-  };
 
   return (
     <div className="overlay">
@@ -46,7 +40,7 @@ const UserDelete = ({ userId, onClose }) => {
 
           <div className="actions">
             <div id="form-actions">
-              <button id="action-save" className="btn" type="submit" onClick={deleteUserHandler}>
+              <button id="action-save" className="btn" type="submit" onClick={onUserDelete}>
                 Delete
               </button>
               <button

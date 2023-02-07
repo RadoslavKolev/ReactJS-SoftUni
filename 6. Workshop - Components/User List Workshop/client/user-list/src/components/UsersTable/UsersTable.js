@@ -125,6 +125,15 @@ const UsersTable = () => {
       })
   };
 
+  const deleteUserHandler = () => {
+    userService.deleteUser(userState.selectedUser._id)
+      .then(userId => {
+        const updatedUsers = users.filter(user => user._id !== userId);
+        setUsers(updatedUsers);
+        closeHandler();
+      });
+  };
+
   // Rendering the table rows
   const userRows = users.map((user) => (
     <UserRow
@@ -151,7 +160,7 @@ const UsersTable = () => {
         {userState.userAction === UserActions.Delete &&
           ReactDOM.createPortal(
             <UserDelete
-              userId={userState.selectedUser._id}
+              onUserDelete={deleteUserHandler}
               onClose={closeHandler}
             />,
             modal

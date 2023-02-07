@@ -1,6 +1,5 @@
 import React from "react";
 
-import * as userService from "./services/userService";
 import Header from "./components/common/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UsersTable from "./components/UsersTable/UsersTable";
