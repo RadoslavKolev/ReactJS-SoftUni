@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Icon from "../common/Icon/Icon";
 
 const SearchBar = () => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleCloseButtonClick = () => {
+    setSearchValue("");
+  };
+
   return (
     <form className="search-form">
       <h2>
@@ -22,11 +32,14 @@ const SearchBar = () => {
           type="text"
           placeholder="Please, select the search criteria"
           name="search"
+          value={searchValue}
+          onChange={handleInputChange}
         />
-        {/* TODO: Show the clear button only if input field length !== 0 */}
-        <button className="btn close-btn">
-          <i className="fa-solid fa-xmark"></i>
-        </button>
+        {searchValue.length !== 0 && (
+          <button className="btn close-btn" onClick={handleCloseButtonClick}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        )}
         <button className="btn" title="Please, select the search criteria">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
