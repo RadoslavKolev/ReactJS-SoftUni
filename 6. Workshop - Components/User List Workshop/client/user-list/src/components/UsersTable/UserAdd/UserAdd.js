@@ -1,8 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import ActionButton from "../../common/ActionButton/ActionButton";
 
 const UserAdd = ({ onUserCreate, onClose }) => {
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    imageUrl: "",
+    country: "",
+    city: "",
+    street: "",
+    streetNumber: "",
+  });
+
+  const changeHandler = (e) => {
+    setFormValues((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, phoneNumber, imageUrl, ...address } = formValues;
+    const userData = { firstName, lastName, email, phoneNumber, imageUrl, address };  // Object
+    onUserCreate(userData);
+  };
+
   // If Esc key is pressed, the modal closes
   const handleKeyDown = (event) => {
     if (event.key === "Escape") onClose();
@@ -38,7 +64,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
             />
           </header>
 
-          <form onSubmit={onUserCreate}>
+          <form onSubmit={submitHandler}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">First name</label>
@@ -50,12 +76,15 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="firstName"
                     name="firstName"
                     type="text"
+                    value={formValues.firstName}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
                   First name should be at least 3 characters long!
                 </p>
               </div>
+
               <div className="form-group">
                 <label htmlFor="lastName">Last name</label>
                 <div className="input-wrapper">
@@ -66,6 +95,8 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="lastName"
                     name="lastName"
                     type="text"
+                    value={formValues.lastName}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
@@ -85,11 +116,13 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="email"
                     name="email"
                     type="text"
-
+                    value={formValues.email}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">Email is not valid!</p>
               </div>
+
               <div className="form-group">
                 <label htmlFor="phoneNumber">Phone number</label>
                 <div className="input-wrapper">
@@ -100,7 +133,8 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="phoneNumber"
                     name="phoneNumber"
                     type="text"
-
+                    value={formValues.phoneNumber}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">Phone number is not valid!</p>
@@ -117,6 +151,8 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                   id="imageUrl"
                   name="imageUrl"
                   type="text"
+                  value={formValues.imageUrl}
+                  onChange={changeHandler}
                 />
               </div>
               <p className="form-error">ImageUrl is not valid!</p>
@@ -133,12 +169,15 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="country"
                     name="country"
                     type="text"
+                    value={formValues.country}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
                   Country should be at least 2 characters long!
                 </p>
               </div>
+
               <div className="form-group">
                 <label htmlFor="city">City</label>
                 <div className="input-wrapper">
@@ -149,6 +188,8 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="city"
                     name="city"
                     type="text"
+                    value={formValues.city}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
@@ -168,12 +209,15 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="street"
                     name="street"
                     type="text"
+                    value={formValues.street}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
                   Street should be at least 3 characters long!
                 </p>
               </div>
+
               <div className="form-group">
                 <label htmlFor="streetNumber">Street number</label>
                 <div className="input-wrapper">
@@ -184,6 +228,8 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="streetNumber"
                     name="streetNumber"
                     type="text"
+                    value={formValues.streetNumber}
+                    onChange={changeHandler}
                   />
                 </div>
                 <p className="form-error">
@@ -191,6 +237,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                 </p>
               </div>
             </div>
+
             <div id="form-actions">
               <button id="action-save" className="btn" type="submit">
                 Add

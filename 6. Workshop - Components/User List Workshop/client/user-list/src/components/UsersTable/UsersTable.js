@@ -65,10 +65,8 @@ const UsersTable = () => {
   }, []);
 
   // Adding an user
-  const addClickHandler = (userId) => {
-    userService
-      .getUser(userId)
-      .then((user) => dispatch({ type: "ADD_USER", user }));
+  const addClickHandler = () => {
+    dispatch({ type: "ADD_USER" });
   };
 
   // Editing an user
@@ -96,28 +94,7 @@ const UsersTable = () => {
   const closeHandler = () => dispatch({ type: "CLOSE", initialState });
 
   // Adding user
-  const userCreateHandler = (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const {
-      firstName,
-      lastName,
-      email,
-      imageUrl,
-      phoneNumber,
-      ...address
-    } = Object.fromEntries(formData);
-
-    const userData = {
-      firstName,
-      lastName,
-      email,
-      imageUrl,
-      phoneNumber,
-      address
-    };
-
+  const userCreateHandler = (userData) => {
     userService.createUser(userData)
       .then((user) => {
         setUsers(prevUsers => [...prevUsers, user]);
