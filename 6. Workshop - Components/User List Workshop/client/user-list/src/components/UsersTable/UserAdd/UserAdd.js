@@ -3,6 +3,18 @@ import React, { useEffect, useState } from "react";
 import ActionButton from "../../common/ActionButton/ActionButton";
 
 const UserAdd = ({ onUserCreate, onClose }) => {
+  const [errors, setErrors] = useState({
+    firstName: true,
+    lastName: true,
+    email: true,
+    phoneNumber: true,
+    imageUrl: true,
+    country: true,
+    city: true,
+    street: true,
+    streetNumber: true,
+  });
+
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -15,6 +27,9 @@ const UserAdd = ({ onUserCreate, onClose }) => {
     streetNumber: "",
   });
 
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  const imageUrlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*.(jpeg|jpg|png|gif))/i;
+
   const changeHandler = (e) => {
     setFormValues((prevState) => ({
       ...prevState,
@@ -22,10 +37,90 @@ const UserAdd = ({ onUserCreate, onClose }) => {
     }));
   };
 
+  const minLength = (event, bound) => {
+    if (formValues[event.target.name].length < bound) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [event.target.name]: true,
+      }));
+    } else {
+      setErrors((prevState) => ({
+        ...prevState,
+        [event.target.name]: false,
+      }));
+    }
+  };
+
+  const checkRegex = (e, regex) => {
+    if (!regex.test(formValues[e.target.name])) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: true,
+      }));
+    } else {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: false,
+      }));
+    }
+  };
+
+  const checkPhoneNumber = (e) => {
+    if (formValues[e.target.name].length !== 10) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: true,
+      }));
+    } else {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: false,
+      }));
+    }
+  };
+
+  const isPositive = (e) => {
+    const number = Number(e.target.value);
+
+    if (number <= 0) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: true,
+      }));
+    } else {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: false,
+      }));
+    }
+  };
+
+  const checkIfValid = () => {
+    return (
+      errors.firstName ||
+      errors.lastName ||
+      errors.email ||
+      errors.phoneNumber ||
+      errors.imageUrl ||
+      errors.country ||
+      errors.city ||
+      errors.street ||
+      errors.streetNumber
+    );
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, phoneNumber, imageUrl, ...address } = formValues;
-    const userData = { firstName, lastName, email, phoneNumber, imageUrl, address };  // Object
+    const { firstName, lastName, email, phoneNumber, imageUrl, ...address } =
+      formValues;
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      imageUrl,
+      address,
+    }; // Object
     onUserCreate(userData);
   };
 
@@ -77,12 +172,18 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="firstName"
                     type="text"
                     value={formValues.firstName}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      minLength(e, 3);
+                    }}
+                    onBlur={(e) => minLength(e, 3)}
                   />
                 </div>
-                <p className="form-error">
-                  First name should be at least 3 characters long!
-                </p>
+                {errors.firstName && (
+                  <p className="form-error">
+                    First name should be at least 3 characters long!
+                  </p>
+                )}
               </div>
 
               <div className="form-group">
@@ -96,12 +197,18 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="lastName"
                     type="text"
                     value={formValues.lastName}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      minLength(e, 3);
+                    }}
+                    onBlur={(e) => minLength(e, 3)}
                   />
                 </div>
-                <p className="form-error">
-                  Last name should be at least 3 characters long!
-                </p>
+                {errors.lastName && (
+                  <p className="form-error">
+                    Last name should be at least 3 characters long!
+                  </p>
+                )}
               </div>
             </div>
 
@@ -117,10 +224,16 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="email"
                     type="text"
                     value={formValues.email}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      checkRegex(e, emailRegex);
+                    }}
+                    onBlur={(e) => checkRegex(e, emailRegex)}
                   />
                 </div>
-                <p className="form-error">Email is not valid!</p>
+                {errors.email && (
+                  <p className="form-error">Email is not valid!</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -134,10 +247,16 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="phoneNumber"
                     type="text"
                     value={formValues.phoneNumber}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      checkPhoneNumber(e);
+                    }}
+                    onBlur={(e) => checkPhoneNumber(e)}
                   />
                 </div>
-                <p className="form-error">Phone number is not valid!</p>
+                {errors.phoneNumber && (
+                  <p className="form-error">Phone number is not valid!</p>
+                )}
               </div>
             </div>
 
@@ -152,10 +271,16 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                   name="imageUrl"
                   type="text"
                   value={formValues.imageUrl}
-                  onChange={changeHandler}
+                  onChange={(e) => {
+                      changeHandler(e);
+                      checkRegex(e, imageUrlRegex);
+                    }}
+                    onBlur={(e) => checkRegex(e, imageUrlRegex)}
                 />
               </div>
-              <p className="form-error">ImageUrl is not valid!</p>
+              {errors.imageUrl && (
+                <p className="form-error">ImageUrl is not valid!</p>
+              )}
             </div>
 
             <div className="form-row">
@@ -170,12 +295,18 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="country"
                     type="text"
                     value={formValues.country}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      minLength(e, 2);
+                    }}
+                    onBlur={(e) => minLength(e, 2)}
                   />
                 </div>
-                <p className="form-error">
-                  Country should be at least 2 characters long!
-                </p>
+                {errors.country && (
+                  <p className="form-error">
+                    Country should be at least 2 characters long!
+                  </p>
+                )}
               </div>
 
               <div className="form-group">
@@ -189,12 +320,18 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="city"
                     type="text"
                     value={formValues.city}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      minLength(e, 3);
+                    }}
+                    onBlur={(e) => minLength(e, 3)}
                   />
                 </div>
-                <p className="form-error">
-                  City should be at least 3 characters long!
-                </p>
+                {errors.city && (
+                  <p className="form-error">
+                    City should be at least 3 characters long!
+                  </p>
+                )}
               </div>
             </div>
 
@@ -210,12 +347,18 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="street"
                     type="text"
                     value={formValues.street}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      minLength(e, 3);
+                    }}
+                    onBlur={(e) => minLength(e, 3)}
                   />
                 </div>
-                <p className="form-error">
-                  Street should be at least 3 characters long!
-                </p>
+                {errors.street && (
+                  <p className="form-error">
+                    Street should be at least 3 characters long!
+                  </p>
+                )}
               </div>
 
               <div className="form-group">
@@ -229,17 +372,28 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     name="streetNumber"
                     type="text"
                     value={formValues.streetNumber}
-                    onChange={changeHandler}
+                    onChange={(e) => {
+                      changeHandler(e);
+                      isPositive(e);
+                    }}
+                    onBlur={(e) => isPositive(e)}
                   />
                 </div>
-                <p className="form-error">
-                  Street number should be a positive number!
-                </p>
+                {errors.streetNumber && (
+                  <p className="form-error">
+                    Street number should be a positive number!
+                  </p>
+                )}
               </div>
             </div>
 
             <div id="form-actions">
-              <button id="action-save" className="btn" type="submit">
+              <button
+                id="action-save"
+                className={`btn ${checkIfValid() ? "btn-disabled" : ""}`}
+                type="submit"
+                disabled={checkIfValid()}
+              >
                 Add
               </button>
               <button

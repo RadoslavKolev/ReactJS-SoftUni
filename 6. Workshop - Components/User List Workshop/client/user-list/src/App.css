@@ -501,6 +501,12 @@ ul {
   margin-left: 2px;
 }
 
+.btn-disabled {
+  background-color: lightgray !important;
+  color: #fff;
+  cursor: not-allowed;
+}
+
 /* Paggination  */
 .pagination {
   text-align: center;
