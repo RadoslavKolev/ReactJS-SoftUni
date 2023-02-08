@@ -783,6 +783,11 @@ ul {
   border-bottom-right-radius: 1.25rem;
 }
 
+.input-wrapper input.input-correct {
+  border: 2px solid green;
+  background-color: #e0ffe0;
+}
+
 .form-row {
   width: 100%;
   display: flex;

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import ActionButton from "../../common/ActionButton/ActionButton";
 
+const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const imageUrlRegex =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*.(jpeg|jpg|png|gif))/i;
+
 const UserAdd = ({ onUserCreate, onClose }) => {
   const [errors, setErrors] = useState({
     firstName: true,
@@ -27,14 +32,26 @@ const UserAdd = ({ onUserCreate, onClose }) => {
     streetNumber: "",
   });
 
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  const imageUrlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*.(jpeg|jpg|png|gif))/i;
-
   const changeHandler = (e) => {
     setFormValues((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, phoneNumber, imageUrl, ...address } =
+      formValues;
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      imageUrl,
+      address,
+    }; // Object
+    onUserCreate(userData);
   };
 
   const minLength = (event, bound) => {
@@ -109,21 +126,6 @@ const UserAdd = ({ onUserCreate, onClose }) => {
     );
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const { firstName, lastName, email, phoneNumber, imageUrl, ...address } =
-      formValues;
-    const userData = {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      imageUrl,
-      address,
-    }; // Object
-    onUserCreate(userData);
-  };
-
   // If Esc key is pressed, the modal closes
   const handleKeyDown = (event) => {
     if (event.key === "Escape") onClose();
@@ -171,6 +173,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="firstName"
                     name="firstName"
                     type="text"
+                    className={!errors.firstName ? 'input-correct' : ''}
                     value={formValues.firstName}
                     onChange={(e) => {
                       changeHandler(e);
@@ -196,6 +199,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="lastName"
                     name="lastName"
                     type="text"
+                    className={!errors.lastName ? 'input-correct' : ''}
                     value={formValues.lastName}
                     onChange={(e) => {
                       changeHandler(e);
@@ -223,6 +227,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="email"
                     name="email"
                     type="text"
+                    className={!errors.email ? 'input-correct' : ''}
                     value={formValues.email}
                     onChange={(e) => {
                       changeHandler(e);
@@ -246,6 +251,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="phoneNumber"
                     name="phoneNumber"
                     type="text"
+                    className={!errors.phoneNumber ? 'input-correct' : ''}
                     value={formValues.phoneNumber}
                     onChange={(e) => {
                       changeHandler(e);
@@ -270,12 +276,13 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                   id="imageUrl"
                   name="imageUrl"
                   type="text"
+                  className={!errors.imageUrl ? 'input-correct' : ''}
                   value={formValues.imageUrl}
                   onChange={(e) => {
-                      changeHandler(e);
-                      checkRegex(e, imageUrlRegex);
-                    }}
-                    onBlur={(e) => checkRegex(e, imageUrlRegex)}
+                    changeHandler(e);
+                    checkRegex(e, imageUrlRegex);
+                  }}
+                  onBlur={(e) => checkRegex(e, imageUrlRegex)}
                 />
               </div>
               {errors.imageUrl && (
@@ -294,6 +301,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="country"
                     name="country"
                     type="text"
+                    className={!errors.country ? 'input-correct' : ''}
                     value={formValues.country}
                     onChange={(e) => {
                       changeHandler(e);
@@ -319,6 +327,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="city"
                     name="city"
                     type="text"
+                    className={!errors.city ? 'input-correct' : ''}
                     value={formValues.city}
                     onChange={(e) => {
                       changeHandler(e);
@@ -346,6 +355,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="street"
                     name="street"
                     type="text"
+                    className={!errors.street ? 'input-correct' : ''}
                     value={formValues.street}
                     onChange={(e) => {
                       changeHandler(e);
@@ -371,6 +381,7 @@ const UserAdd = ({ onUserCreate, onClose }) => {
                     id="streetNumber"
                     name="streetNumber"
                     type="text"
+                    className={!errors.streetNumber ? 'input-correct' : ''}
                     value={formValues.streetNumber}
                     onChange={(e) => {
                       changeHandler(e);
